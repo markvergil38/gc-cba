@@ -1,0 +1,169 @@
+<?php include '../config.php';
+	if(isset($_SESSION['parent'])){
+		header('Location: class');
+	}
+?>
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>Parent's Portal</title>
+<link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.2.0.min.css">
+<script src="js/jquery-1.8.2.min.js"></script>
+<script src="js/jquery.mobile-1.2.0.min.js"></script>
+	<style>
+		* {
+			font-size:14px;
+		}
+	</style>
+	<script type="text/javascript" src="../source/scripts/js.js"></script>
+	<script type="text/javascript" src="../source/scripts/ui.js"></script>
+	<script>
+		$(function(){
+			$('div.overlay').hide();
+			$('div.loading').hide().ajaxStart(function(){ $(this).show();}).ajaxStop(function(){ $(this).hide();});
+		
+			$('#login').click(function(){
+				if($('#list-instructors').val()=="Select Your Account"){
+					alert('Please select your account.');
+				}else if($('#password').val()==""){
+					alert('Please enter your password.');
+				}else{
+					$.ajax({
+						url:"functions/login.php?username="+$('#list-instructors').val()+"&password="+$('#password').val(),
+						success:function(i){
+							if(i==1){
+								window.location='class';
+							//}else if(i==2) {
+								//alert('Account is not yet verified. Please check your e-mail to confirm your account.');
+							}else if(i==3) {
+								alert('Incorrect password.');
+							}
+						}
+					});
+				}
+			});
+			
+			function validation(a){
+				$('#register-error').css('color','red');
+				$('#register-error').html(a);
+			}
+			
+			$('#register').click(function(){
+				$.ajax({
+					url:"functions/checkemail.php?email="+$('#code').val(),
+					success:function(i){
+						if(i==0){
+							validation('E-mail already registered.');
+						}else{
+							if($('#code').val()==""){
+								validation('Enter your E-mail');
+							}else if($('#lastname').val()==""){
+								validation('Enter your Last Name');
+							}else if($('#firstname').val()==""){
+								validation('Enter your First Name');
+							}else if($('#StudentIDNumber').val()==""){
+								validation('Enter your Child Student ID NUmber');
+							}else if($('#password2').val()==""){
+								validation('Enter your Password');
+							}else if($('#password3').val()==""){
+								validation('Re-enter your Password');
+							}else if($('#password2').val()!=$('#password3').val()){
+								validation('Password does not match');
+							}else {
+								$.ajax({
+									url:"functions/register.php",
+									data:{
+										code:$('#code').val(),
+										lastname:$('#lastname').val(),
+										firstname:$('#firstname').val(),
+										middlename:$('#middlename').val(),
+										StudentIDNumber:$('#StudentIDNumber').val(),
+										password:$('#password2').val()
+									},
+									success:function(){
+										alert("Registration was successful.\nPlease wait for the approval of your account.");
+										$('input').val('');
+										$('#register-error').css('color','green');
+										$('#register-error').html('Fill-up all fields.');
+									}
+								});
+							}	
+						}
+					}
+				});
+			
+			});
+		});
+	</script>
+</head>
+<body>
+<div data-role="page" data-theme="e">
+	<div data-role="header" data-position="fixed">
+	<center><img src="assets/banner.png" style="max-width:100%"></center>
+
+	</div>
+<div data-role="content"> 
+				<div style="text-shadow:1px 1px 2px black;color:white;font-size:20px;text-align:center;padding-top:20px;">WELCOME TO GORDON COLLEGE CBA PARENT's PORTAL</div>
+	<center>			<div id="registration-form" style="width:420px;height:650px;background:#d7d7d7;border-radius:3px;" class="right">
+				<div style="width:100%;height:35px; border-top-left-radius:3px;border-top-right-radius:3px;">
+				<div style="padding:8px 0px 0px 10px;color:white;text-shadow:1px 1px 2px black;">REGISTRATION FORM</div>
+
+				<div style="width:380px;margin:auto;">
+					<div style="margin-top:5px;color:green;border-bottom:1px solid gray;padding-bottom:7px;padding-top:5px;" id="register-error">Fill-up all fields.</div>
+					
+					<div style="margin-top:15px;">E-mail:</div>
+					<div><input type="text" class="txt" id="code" style="text-transform:"></div>
+					
+					<div style="margin-top:5px;">Last Name:</div>
+					<div><input type="text" class="txt" id="lastname" style="text-transform:capitalize"></div>
+					
+					<div style="margin-top:5px;">First Name:</div>
+					<div><input type="text" class="txt" id="firstname" style="text-transform:capitalize"></div>
+					
+					<div style="margin-top:5px;">Middle Name:</div>
+					<div><input type="text" class="txt" id="middlename" style="text-transform:capitalize"></div>
+					
+					<div style="margin-top:5px;">Student ID number:</div>
+					<div><input type="text" class="txt" id="StudentIDNumber" style="text-transform:capitalize"></div>
+
+					<div style="margin-top:5px;">Password:</div>
+					<div><input type="password" class="txt" id="password2"></div>
+					
+					<div style="margin-top:5px;">Re-type Password:</div>
+					<div><input type="password" class="txt" id="password3"></div>
+					
+					<div style="margin-top:20px;"><button id="register" data-corners="false" class="btn right">Register</button></div>
+				</div>
+			</div>
+			<br />
+	</center>
+			</div>
+			
+			<div id="login-form" style="width:440px;height:280px;background:#d7d7d7;border-radius:3px;margin-top:20px;" class="left">
+				
+				<div style="width:100%;height:35px;border-top-left-radius:3px;border-top-right-radius:3px;">
+					<div style="padding:8px 0px 0px 10px;color:white;text-shadow:1px 1px 2px black;">LOGIN FORM</div>
+				</div>	
+				<br>
+				<div style="width:380px;margin:auto;">
+					
+					<div style="margin-top:10px;">Username:</div>
+					<div style="margin-top:5px;"><input type="password" id="password" placeholder="Enter your password" style="width:376px;margin:auto;"></div>
+
+					
+					<div style="margin-top:10px;">Password:</div>
+					<div style="margin-top:5px;"><input type="password" id="password" placeholder="Enter your password" style="width:376px;margin:auto;"></div>
+					<div style="margin-top:25px;"><button data-corners="false" id="login" class="btn right">Login</button></div>
+				</div>
+			</div>
+		</div>
+		<div data-role="footer" data-position="fixed" data-theme="e">
+		<div data-role="navbar">
+		<ul>
+		<li><a href="index.html" data-theme="e"><font size="5em" face="Garamond" style="line-height:75px;">BACK</font></a></li>
+		</ul>
+		</div><!-- /navbar -->
+	
+		</div>
+</body>
+</html>

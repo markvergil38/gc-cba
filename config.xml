@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="cbaAccessPoint" version="1.0.0">
+	
+	<name>CBA Access Point</name>
+	<description>CBA Access Point</description>
+	<author>LogicGates</author>	<gap:platforms>
+	<content src="index.html" />
+		<gap:platform name="ios" />
+		<gap:platform name="android" />
+		<gap:platform name="webos" />
+		<gap:platform name="symbian.wrt" />
+		<gap:platform name="blackberry" project="widgets"/>
+	</gap:platforms>
+
+	
+	 <icon src="icon.png" gap:role="default" />
+	
+
+	<!-- retina iPad support: PhoneGap 2.5.0+ only -->
+	
+    <!-- retina iPad -->
+    
+	<!-- childbrowser -->
+	<gap:plugin name="com.phonegap.plugins.childbrowser" />
+	
+	
+	<preference name="phonegap-version" value="3.1.0" />
+
+	<access origin="*" subdomains="true" />
+	<access uri="*" subdomains="true" />
+	<feature name="http://api.phonegap.com/1.0/network"/>
+	
+	<preference name="orientation" value="portrait" />
+	<preference name="fullscreen" value="true" />
+	<preference name="target-device" value="universal" />
+
+</widget>

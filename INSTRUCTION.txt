@@ -1,0 +1,7 @@
+HOW TO OPEN THE MOBILE APPLICATION:
+
+STEP 1: Look for the filename index.html
+STEP 2: Right-click then press the Open with 
+STEP 3: Choose Google Chrome as a default browser.
+
+ENJOY! :)
